@@ -25,10 +25,12 @@ const app = createApp({
   template: '<App />'
 });
 
-app.component('App', defineAsyncComponent(() => loadModule('/src/App.vue', options)));
-app.component('Navbar', defineAsyncComponent(() => loadModule('/src/components/Navbar.vue', options)));
-app.component('Services', defineAsyncComponent(() => loadModule('/src/components/Services.vue', options)));
-app.component('About', defineAsyncComponent(() => loadModule('/src/components/About.vue', options)));
-app.component('Footer', defineAsyncComponent(() => loadModule('/src/components/Footer.vue', options)));
+
+app.component('App', defineAsyncComponent(() => loadModule('src/App.vue', options)));
+app.component('Navbar', defineAsyncComponent(() => loadModule('src/components/Navbar.vue', options)));
+app.component('Services', defineAsyncComponent(() => loadModule('src/components/Services.vue', options)));
+app.component('About', defineAsyncComponent(() => loadModule('src/components/About.vue', options)));
+app.component('Footer', defineAsyncComponent(() => loadModule('src/components/Footer.vue', options)));
+
 
 app.mount('#app');
