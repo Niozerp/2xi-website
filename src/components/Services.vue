@@ -3,6 +3,7 @@
     <h2 class="text-center">Our Services</h2>
     <div class="row">
       <div class="col-md-3">
+
         <a href="art.html" class="card-link">
           <div class="card">
             <div class="card-body">
@@ -41,6 +42,7 @@
             </div>
           </div>
         </a>
+
       </div>
     </div>
   </section>
@@ -55,6 +57,7 @@ export default {
 <style scoped>
 .card {
   margin-bottom: 20px;
+
   transition: transform 0.2s;
 }
 .card:hover {
@@ -64,5 +67,6 @@ export default {
 .card-link {
   text-decoration: none;
   color: inherit;
+
 }
 </style>
