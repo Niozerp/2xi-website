@@ -1,0 +1,68 @@
+/* Global Styles */
+html {
+    height: 100%;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+#main-content {
+    flex: 1 0 auto;
+}
+
+/* Navbar Styles */
+.navbar {
+  background-color: var(--primary-color);
+}
+
+/* Footer Styles */
+.footer {
+  background-color: var(--secondary-color);
+  color: white;
+}
+.footer a {
+  color: white;
+  text-decoration: none;
+}
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Services Styles */
+.card {
+  margin-bottom: 20px;
+  transition: transform 0.2s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --background-color: #f8f9fa;
+    --text-color: #212529;
+}
+
+#app {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.navbar {
+    background-color: var(--primary-color);
+}
+
+.footer {
+    background-color: var(--secondary-color);
+    color: white;
+}
