@@ -12,6 +12,38 @@ body {
 
 #main-content {
     flex: 1 0 auto;
+}
+
+/* Navbar Styles */
+.navbar {
+  background-color: var(--primary-color);
+}
+
+/* Footer Styles */
+.footer {
+  background-color: var(--secondary-color);
+  color: white;
+}
+.footer a {
+  color: white;
+  text-decoration: none;
+}
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Services Styles */
+.card {
+  margin-bottom: 20px;
+  transition: transform 0.2s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.card-link {
+  text-decoration: none;
+  color: inherit;
 
 }
 
