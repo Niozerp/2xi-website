@@ -19,12 +19,10 @@ const options = {
     const ref = document.head.getElementsByTagName('style')[0] || null;
     document.head.insertBefore(style, ref);
   },
-
 };
 
-const App = defineAsyncComponent(() => loadModule('src/App.vue', options));
+const Navbar = defineAsyncComponent(() => loadModule('src/components/Navbar.vue', options));
+const Footer = defineAsyncComponent(() => loadModule('src/components/Footer.vue', options));
 
-const app = createApp(App);
-
-
-app.mount('#app');
+createApp(Navbar).mount('#navbar');
+createApp(Footer).mount('#footer');
