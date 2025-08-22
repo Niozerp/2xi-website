@@ -19,10 +19,12 @@ const options = {
     const ref = document.head.getElementsByTagName('style')[0] || null;
     document.head.insertBefore(style, ref);
   },
+
 };
 
 const App = defineAsyncComponent(() => loadModule('src/App.vue', options));
 
 const app = createApp(App);
+
 
 app.mount('#app');
