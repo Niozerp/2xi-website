@@ -9,11 +9,16 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-
             <a class="nav-link" href="index.html">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="https://google.com" target="_blank">Ausherman Clothes</a>
+          </li>
+          <li v-if="authState.isAuthenticated" class="nav-item">
+            <a class="nav-link" href="#" @click="showSettings">Settings</a>
+          </li>
+          <li v-if="authState.isAuthenticated" class="nav-item">
+            <a class="nav-link" href="#" @click="signOut">Sign Out</a>
           </li>
         </ul>
       </div>
@@ -24,6 +29,7 @@
 <script>
 export default {
   name: 'Navbar',
+  props: ['authState', 'showSettings', 'signOut'],
 };
 </script>
 
