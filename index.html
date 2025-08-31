@@ -9,10 +9,206 @@
     <link rel="stylesheet" href="src/assets/styles.css">
 </head>
 <body>
+    <div id="app">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">My Business</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="ausherman-link" class="nav-link" href="#" target="_blank">Ausherman Clothes</a>
+                        </li>
+                        <li v-if="!authState.isAuthenticated" class="nav-item">
+                            <div id="g_id_onload"
+                                 data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                                 data-callback="handleCredentialResponse">
+                            </div>
+                            <div class="g_id_signin"
+                                 data-type="standard"
+                                 data-shape="rectangular"
+                                 data-theme="outline"
+                                 data-text="signin_with"
+                                 data-size="large"
+                                 data-logo_alignment="left">
+                            </div>
+                        </li>
+                        <li v-if="authState.isAuthenticated" class="nav-item">
+                            <a class="nav-link" href="#" @click="showSettings">Settings</a>
+                        </li>
+                        <li v-if="authState.isAuthenticated" class="nav-item">
+                            <a class="nav-link" href="#" @click="signOut">Sign Out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main id="main-content" v-if="!settingsVisible">
+            <section id="services" class="py-5">
+                <h2 class="text-center">Our Services</h2>
+            <div class="row">
+              <div class="col-md-3">
+                <a href="art.html" class="card-link">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Art Commissions</h5>
+                      <p class="card-text">Custom art pieces created by our talented artists.</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-3">
+                <a href="web-design.html" class="card-link">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Web Design</h5>
+                      <p class="card-text">Modern and responsive websites for your business.</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-3">
+                <a href="graphic-design.html" class="card-link">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Graphic Design</h5>
+                      <p class="card-text">Logos, branding, and other graphic design services.</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-3">
+                <a href="video-production.html" class="card-link">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Video Production</h5>
+                      <p class="card-text">High-quality video content for your brand.</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+        </section>
+        <section id="about" class="py-5">
+            <h2 class="text-center">About Us</h2>
+            <p class="lead text-center">We are a creative agency specializing in a variety of services to help your business grow.</p>
+        </section>
+    </main>
+    <main id="settings-content" v-if="settingsVisible" class="container mt-5">
+        <h1>Settings</h1>
+        <p>This is the settings page. Only authenticated users can see this.</p>
+        <div id="settings-dynamic-content"></div>
+    </main>
+
+    <footer class="footer mt-auto py-3">
+        <div class="container text-center">
+          <span>Follow us on:</span>
+          <a id="social-link-0" href="#" target="_blank" class="ms-2">Social Media 1</a>
+          <a id="social-link-1" href="#" target="_blank" class="ms-2">Social Media 2</a>
+          <a id="social-link-2" href="#" target="_blank" class="ms-2">Social Media 3</a>
+        </div>
+    </footer>
+    </div>
+
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <div id="app"></div>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
-    <script type="module" src="src/main.js"></script>
+    <script>
+      const { createApp, ref, onMounted } = Vue;
+
+      const app = createApp({
+        setup() {
+          const authState = ref({
+            isAuthenticated: false,
+            user: null,
+            error: null,
+          });
+          const settingsVisible = ref(false);
+          const aushermanLink = ref('https://google.com');
+          const socialLinks = ref([
+            { name: 'Social 1', url: 'https://google.com' },
+            { name: 'Social 2', url: 'https://google.com' },
+            { name: 'Social 3', url: 'https://google.com' },
+          ]);
+
+          const allowedEmail = 'Niozerp@2xi.zone';
+
+          const handleCredentialResponse = (response) => {
+            const id_token = response.credential;
+            const userObject = JSON.parse(atob(id_token.split('.')[1]));
+
+            if (userObject.email === allowedEmail) {
+              authState.value.isAuthenticated = true;
+              authState.value.user = userObject;
+              authState.value.error = null;
+              localStorage.setItem('isAuthenticated', 'true');
+              localStorage.setItem('user', JSON.stringify(userObject));
+            } else {
+              authState.value.isAuthenticated = false;
+              authState.value.user = null;
+              authState.value.error = 'Access denied. You are not an authorized user.';
+              localStorage.removeItem('isAuthenticated');
+              localStorage.removeItem('user');
+              alert(authState.value.error);
+            }
+          };
+
+          const signOut = () => {
+            authState.value.isAuthenticated = false;
+            authState.value.user = null;
+            authState.value.error = null;
+            localStorage.removeItem('isAuthenticated');
+            localStorage.removeItem('user');
+            settingsVisible.value = false;
+          };
+
+          const checkLocalStorage = () => {
+            const isAuthenticated = localStorage.getItem('isAuthenticated');
+            if (isAuthenticated === 'true') {
+              authState.value.isAuthenticated = true;
+              authState.value.user = JSON.parse(localStorage.getItem('user'));
+            }
+          };
+
+          const showSettings = () => {
+            if (authState.value.isAuthenticated) {
+              settingsVisible.value = true;
+              // Dynamically load settings.js
+              const script = document.createElement('script');
+              script.src = 'src/settings.js';
+              document.getElementById('settings-dynamic-content').appendChild(script);
+            }
+          };
+
+          onMounted(() => {
+            checkLocalStorage();
+            window.handleCredentialResponse = handleCredentialResponse;
+
+            document.getElementById('ausherman-link').href = aushermanLink.value;
+            socialLinks.value.forEach((link, index) => {
+                const linkEl = document.getElementById(`social-link-${index}`);
+                if (linkEl) {
+                    linkEl.href = link.url;
+                    linkEl.innerText = link.name;
+                }
+            });
+          });
+
+          return {
+            authState,
+            settingsVisible,
+            showSettings,
+            signOut,
+          };
+        }
+      });
+
+      app.mount('#app');
+    </script>
 </body>
 </html>
