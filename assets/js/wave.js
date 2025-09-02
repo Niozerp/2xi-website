@@ -24,15 +24,14 @@ window.initWave = function() {
     );
 
     // Animate text marquee
-    animate(progress => {
-        // `progress` goes from 0 to 1
-        const offset1 = -50 * progress;
-        const offset2 = 50 - (50 * progress);
-        textPaths[0].setAttribute('startOffset', `${offset1}%`);
-        textPaths[1].setAttribute('startOffset', `${offset2}%`);
-    }, {
+    textPaths[1].setAttribute('startOffset', '-50%');
+    animate(0, 50, {
         duration: 9,
-        easing: 'linear',
         repeat: Infinity,
+        ease: 'linear',
+        onUpdate: v => {
+            textPaths[0].setAttribute('startOffset', `${v}%`);
+            textPaths[1].setAttribute('startOffset', `${v - 50}%`);
+        }
     });
 };
