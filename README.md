@@ -2,6 +2,7 @@
 
 Recreation using Vue 2.5, Bootstrap 5, Motion, and animate.css.
 
+
 ## Run
 Open `index.html` in a browser. Done.
 
