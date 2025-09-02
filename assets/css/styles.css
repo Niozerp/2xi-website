@@ -1,0 +1,37 @@
+:root{
+  --site-bg: #c9c0ea;
+  --primary: #3c12d6;
+  --primary-ink: #2b0b9b;
+  --link-hover: #4f25ff;
+  --black: #111;
+}
+html, body { height: 100%; }
+body.bg-site { background: var(--site-bg); font-family: "Space Grotesk", system-ui, sans-serif; }
+.fw-700{ font-weight: 700; }
+.brand{ letter-spacing: .06em; font-size: clamp(18px, 2.2vw, 26px); }
+.nav-link-top{ color: var(--primary); font-weight: 600; text-decoration: none; font-size: clamp(14px, 1.5vw, 18px); }
+.nav-link-top:hover{ color: var(--link-hover); text-decoration: underline; }
+.wave-section{ margin-top: clamp(10px, 6vh, 80px); margin-bottom: clamp(12px, 6vh, 80px); }
+#waveText{ height: clamp(180px, 28vw, 320px); }
+#waveText #sinePath{ stroke: transparent; }
+.wave-text{ font-size: clamp(34px, 5vw, 78px); font-weight: 700; fill: var(--primary); letter-spacing: .03em; text-transform: uppercase; }
+.social-title{ color: var(--primary); text-transform: uppercase; font-size: clamp(32px, 6vw, 64px); }
+.squiggle{
+  height: 12px;
+  background:
+    radial-gradient(circle at 6px 6px, var(--primary) 6px, transparent 7px) 0 50%/24px 12px repeat-x,
+    radial-gradient(circle at 18px 6px, var(--primary) 6px, transparent 7px) 0 50%/24px 12px repeat-x;
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,.08));
+}
+.social-link{
+  display: inline-block;
+  margin: 18px 0;
+  color: var(--primary);
+  font-weight: 800;
+  font-size: clamp(16px, 2.6vw, 28px);
+  text-transform: uppercase;
+  border-bottom: 3px solid var(--primary);
+  padding-bottom: 4px;
+}
+.social-link:hover{ color: var(--link-hover); border-bottom-color: var(--link-hover); }
+@media (prefers-reduced-motion: reduce){ .animate__animated{ animation: none !important; } }
