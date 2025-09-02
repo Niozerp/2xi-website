@@ -67,9 +67,65 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.umd.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/js/wave.js"></script>
-  <script src="assets/js/app.js"></script>
+  <script type="module">
+    import { animate, scroll } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm";
+    function initWave() {
+      const pathEl = document.querySelector('#sinePath');
+      const textPaths = document.querySelectorAll('#waveText textPath');
+
+      if (!pathEl || !textPaths.length) return;
+
+      const pathA = 'M0,200 C200,120 400,280 600,200 C800,120 1000,280 1200,200 C1400,120 1600,280 1800,200';
+      const pathB = 'M0,210 C200,150 400,260 600,210 C800,150 1000,260 1200,210 C1400,150 1600,260 1800,210';
+      const pathC = 'M0,190 C200,100 400,300 600,190 C800,100 1000,300 1200,190 C1400,100 1600,300 1800,190';
+
+      // Animate path morphing
+      animate(pathEl,
+        { d: [pathA, pathB, pathC, pathA] },
+        {
+          duration: 4,
+          easing: 'ease-in-out',
+          direction: 'alternate',
+          repeat: Infinity
+        }
+      );
+
+      // Animate text marquee
+      textPaths[1].setAttribute('startOffset', '-50%');
+      animate(0, 50, {
+        duration: 4,
+        repeat: Infinity,
+        ease: 'linear',
+        onUpdate: v => {
+          textPaths[0].setAttribute('startOffset', `${v}%`);
+          textPaths[1].setAttribute('startOffset', `${v - 50}%`);
+        }
+      });
+    };
+
+    new Vue({
+      el: '#app',
+      data: {
+        navLinks: [
+          { label: 'Art Commissions', href: 'https://www.google.com' }, // <-- update
+          { label: 'Ausherman Clothing', href: 'https://www.google.com' }, // <-- update
+          { label: 'About', href: 'https://www.google.com' }, // <-- update
+          { label: 'Cart', href: 'https://www.google.com' }  // <-- update
+        ],
+        social: [
+          { label: 'Our Company YouTube Channel', href: 'https://www.google.com' }, // <-- supply YouTube channel URL
+          { label: 'Follow Us On X', href: 'https://www.google.com' }, // <-- supply X/Twitter profile
+          { label: 'Jony Aush YouTube', href: 'https://www.google.com' }, // <-- supply Jony channel
+          { label: 'Dree Artmaker On YouTube', href: 'https://www.google.com' }, // <-- supply Dree channel
+          { label: 'JonyAush On Instagram', href: 'https://www.google.com' }  // <-- supply Instagram profile
+        ]
+      },
+      mounted() {
+        const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!reduce && typeof initWave === 'function') { initWave(); }
+      }
+    });
+  </script>
 </body>
 </html>
