@@ -68,11 +68,10 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.umd.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
+  <script type="module">
+    import { animate, scroll } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm";
     function initWave() {
-      const { animate } = motion;
 
       const pathEl = document.querySelector('#sinePath');
       const textPaths = document.querySelectorAll('#waveText textPath');
