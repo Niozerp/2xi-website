@@ -89,7 +89,9 @@
       // Animate text marquee on scroll
       scroll(
         ({ y }) => {
-          textPaths[0].setAttribute("startOffset", (y.progress * 100) - 50 + "%");
+          if (textPaths[0]) {
+            textPaths[0].setAttribute("startOffset", (y.progress * 50) - 25 + "%");
+          }
         },
         {
           target: document.querySelector(".wave-section"),
