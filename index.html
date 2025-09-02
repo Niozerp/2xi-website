@@ -1,126 +1,76 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Business</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😊</text></svg>">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="src/assets/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Indescribable Industries</title>
+  <meta name="description" content="We turn vision into product." />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">My Business</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a id="ausherman-link" class="nav-link" href="#" target="_blank">Ausherman Clothes</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+  <div id="app" class="bg-site min-vh-100 d-flex flex-column">
+    <header class="container-xxl py-4">
+      <nav class="d-flex align-items-center justify-content-between">
+        <a class="brand fw-700 text-uppercase text-primary text-decoration-none" href="#">Indescribable Industries</a>
+        <ul class="nav gap-4">
+          <li class="nav-item" v-for="(link, i) in navLinks" :key="i">
+            <a class="nav-link nav-link-top" :href="link.href" target="_blank" rel="noopener">{{ link.label }}</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
 
-        <main id="main-content">
-            <section id="services" class="py-5">
-                <h2 class="text-center">Our Services</h2>
-            <div class="row">
-              <div class="col-md-3">
-                <a href="art.html" class="card-link">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Art Commissions</h5>
-                      <p class="card-text">Custom art pieces created by our talented artists.</p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-3">
-                <a href="web-design.html" class="card-link">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Web Design</h5>
-                      <p class="card-text">Modern and responsive websites for your business.</p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-3">
-                <a href="graphic-design.html" class="card-link">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Graphic Design</h5>
-                      <p class="card-text">Logos, branding, and other graphic design services.</p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-3">
-                <a href="video-production.html" class="card-link">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Video Production</h5>
-                      <p class="card-text">High-quality video content for your brand.</p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-        </section>
-        <section id="about" class="py-5">
-            <h2 class="text-center">About Us</h2>
-            <p class="lead text-center">We are a creative agency specializing in a variety of services to help your business grow.</p>
-        </section>
+    <section class="wave-section flex-shrink-0">
+      <svg id="waveText" class="w-100" viewBox="0 0 1600 320" preserveAspectRatio="none" role="img" aria-label="We turn vision into product">
+        <defs>
+          <path id="sinePath" d="M0,200 C200,120 400,280 600,200 C800,120 1000,280 1200,200 C1400,120 1600,280 1800,200" fill="none" />
+        </defs>
+        <g class="wave-group">
+          <text class="wave-text">
+            <textPath xlink:href="#sinePath" href="#sinePath" startOffset="0%">
+              WE TURN VISION INTO PRODUCT • WE TURN VISION INTO PRODUCT • WE TURN VISION INTO PRODUCT •
+            </textPath>
+          </text>
+          <text class="wave-text">
+            <textPath xlink:href="#sinePath" href="#sinePath" startOffset="50%">
+              WE TURN VISION INTO PRODUCT • WE TURN VISION INTO PRODUCT • WE TURN VISION INTO PRODUCT •
+            </textPath>
+          </text>
+        </g>
+      </svg>
+    </section>
+
+    <main class="container-xxl my-5 flex-grow-1">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+          <h1 class="display-4 fw-700 text-primary text-uppercase lh-1 animate__animated animate__fadeInUp social-title">
+            Social Links
+          </h1>
+          <div class="squiggle my-2" aria-hidden="true"></div>
+          <div class="mt-4">
+            <a v-for="(s, i) in social" :key="i" class="social-link d-block text-decoration-none" :href="s.href" target="_blank" rel="noopener">
+              {{ s.label }}
+            </a>
+          </div>
+        </div>
+      </div>
     </main>
 
-    <footer class="footer mt-auto py-3">
-        <div class="container text-center">
-          <span>Follow us on:</span>
-          <a id="social-link-0" href="#" target="_blank" class="ms-2">Social Media 1</a>
-          <a id="social-link-1" href="#" target="_blank" class="ms-2">Social Media 2</a>
-          <a id="social-link-2" href="#" target="_blank" class="ms-2">Social Media 3</a>
-        </div>
+    <footer class="container-xxl py-4 small text-muted">
+      <div class="d-flex justify-content-between">
+        <span>© {{ new Date().getFullYear() }} Indescribable Industries</span>
+        <span>Built with Vue 2.5, Bootstrap, anime.js</span>
+      </div>
     </footer>
-    </div>
+  </div>
 
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script>
-      const { createApp, ref, onMounted } = Vue;
-
-      const app = createApp({
-        setup() {
-          const aushermanLink = ref('https://google.com');
-          const socialLinks = ref([
-            { name: 'Social 1', url: 'https://google.com' },
-            { name: 'Social 2', url: 'https://google.com' },
-            { name: 'Social 3', url: 'https://google.com' },
-          ]);
-
-          onMounted(() => {
-            document.getElementById('ausherman-link').href = aushermanLink.value;
-            socialLinks.value.forEach((link, index) => {
-                const linkEl = document.getElementById(`social-link-${index}`);
-                if (linkEl) {
-                    linkEl.href = link.url;
-                    linkEl.innerText = link.name;
-                }
-            });
-          });
-
-          return {
-          };
-        }
-      });
-
-      app.mount('#app');
-    </script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/wave.js"></script>
+  <script src="assets/js/app.js"></script>
 </body>
 </html>
