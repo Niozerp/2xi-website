@@ -1,6 +1,7 @@
 # Indescribable Industries — Static Rebuild
 
-Recreation using Vue 2.5, Bootstrap 5, anime.js, and animate.css.
+Recreation using Vue 2.5, Bootstrap 5, Motion, and animate.css.
+
 
 ## Run
 Open `index.html` in a browser. Done.
@@ -9,7 +10,7 @@ Open `index.html` in a browser. Done.
 Edit `assets/js/app.js`. Replace all `https://www.google.com` with your real links (comments show where).
 
 ## Animation
-- Morphing path + scrolling text via anime.js in `assets/js/wave.js`.
+- Morphing path + scrolling text via Motion in `assets/js/wave.js`.
 - Respects `prefers-reduced-motion`.
 
 ## Styling
