@@ -24,13 +24,14 @@ window.initWave = function() {
     );
 
     // Animate text marquee
-    animate(0, -50, {
+    textPaths[1].setAttribute('startOffset', '-50%');
+    animate(0, 50, {
         duration: 9,
         repeat: Infinity,
         ease: 'linear',
         onUpdate: v => {
             textPaths[0].setAttribute('startOffset', `${v}%`);
-            textPaths[1].setAttribute('startOffset', `${50 + v}%`);
+            textPaths[1].setAttribute('startOffset', `${v - 50}%`);
         }
     });
 };
