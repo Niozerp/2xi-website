@@ -45,7 +45,8 @@ body{
   border-radius:999px;
 }
 
-/* Respect reduced motion */
+/* Respect reduced motion 
 @media (prefers-reduced-motion: reduce){
   .wave-text{ letter-spacing:.08em; }
 }
+*/
