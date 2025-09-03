@@ -45,14 +45,16 @@
         <g class="wave-group">
           <text class="wave-text wave-text--a">
             <textPath href="#sinePath" startOffset="-100%">
-              WE TURN VISION INTO PRODUCT • 
+              WE TURN VISION INTO PRODUCT • WE TURN VISION INTO PRODUCT • WE TURN VISION INTO PRODUCT •
             </textPath>
           </text>
+          <!--
             <text class="wave-text wave-text--a">
             <textPath href="#sinePath" startOffset="50%">
-              WE TURN VISION INTO PRODUCT • 
+              WE TURN VISION INTO PRODUCT •
             </textPath>
           </text>
+          -->
         </g>
       </svg>
     </section>
@@ -91,7 +93,7 @@
   <script type="module">
   function initWave() {
     const textPaths = document.querySelectorAll('#waveText textPath');
-    if (textPaths.length < 2) return;
+    //if (textPaths.length < 2) return;
 
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) return;
