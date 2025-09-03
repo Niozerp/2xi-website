@@ -99,8 +99,8 @@
     //if (reduce) return;
 
     const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
-
-    fontsReady.then(() => {
+//weird fonts ready check****
+    //fontsReady.then(() => {
       const DURATION_MS = 12000;
 
       // WAAPI timebase: invisible, no visual side-effects.
@@ -123,7 +123,7 @@
         textPaths[1].setAttribute('startOffset', b + '%');
 
         rafId = requestAnimationFrame(tick);
-      };
+      //};
       tick();
 
       // Optional controls
