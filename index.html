@@ -89,89 +89,74 @@
 
   <!-- Inline WAAPI logic: no external project JS files -->
   <script type="module">
-    // 1) Define the initializer and attach it globally for Vue to call
+  function initWave() {
+    const textPaths = document.querySelectorAll('#waveText textPath');
+    if (textPaths.length < 2) return;
 
-    function initWave() {
-      // 2) Select required DOM nodes: the path and both textPath elements
-      const pathEl = document.querySelector('#sinePath');
-      const textPaths = document.querySelectorAll('#waveText textPath');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
 
-      // 3) Guard clause: exit if the path or two textPaths are missing
-      if (!pathEl || textPaths.length < 2) return;
+    const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
 
-      // 4) Respect user preferences: disable animations when reduced motion is requested
-      const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduce) return;
+    fontsReady.then(() => {
+      const DURATION_MS = 12000;
 
-      // 5) Wait for fonts to be ready to avoid any initial layout jump
-      const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+      // WAAPI timebase: invisible, no visual side-effects.
+      const clock = document.createElement('div').animate(
+        [{ transform: 'translateX(0)' }, { transform: 'translateX(1px)' }],
+        { duration: DURATION_MS, iterations: Infinity, easing: 'linear' }
+      );
 
-      fontsReady.then(() => {
-        // 6) Configure animation duration and easing for a smooth, constant speed
-        const DURATION_MS = 12000;
+      let rafId = 0;
+      const tick = () => {
+        // progress 0..1 from WAAPI clock
+        const t = clock.currentTime || 0;
+        const p = (t % DURATION_MS) / DURATION_MS;
 
-        // 7) Animate first text: move startOffset from -100% to 0% continuously
-        textPaths[0].animate(
-          [
-            { startOffset: '-100%' },  // begin off the left side
-            { startOffset:   '0%'  }   // arrive aligned at the start
-          ],
-          {
-            duration: DURATION_MS,     // total time per cycle
-            iterations: Infinity,      // loop forever
-            easing: 'linear',          // constant velocity
-            fill: 'both'               // persist computed state
-          }
-        );
+        // A: -100% -> 0%, B: -50% -> 50% (left → right)
+        const a = -100 + 100 * p;
+        const b =  -50 + 100 * p;
 
-        // 8) Animate second text: half-cycle offset to seamlessly fill the space
-        textPaths[1].animate(
-          [
-            { startOffset:  '-50%' },  // start midway behind
-            { startOffset:   '50%' }   // end midway ahead
-          ],
-          {
-            duration: DURATION_MS,     // same speed as the first
-            iterations: Infinity,      // loop forever
-            easing: 'linear',          // constant velocity
-            fill: 'both'               // persist computed state
-          }
-        );
+        textPaths[0].setAttribute('startOffset', a + '%');
+        textPaths[1].setAttribute('startOffset', b + '%');
 
-        // 9) Optionally expose references for runtime control (pause/resume) if desired later
-        window.waveAnimations = textPaths[0].getAnimations().concat(textPaths[1].getAnimations());
-      });
-    }
+        rafId = requestAnimationFrame(tick);
+      };
+      tick();
 
-    // 10) Attach to window so Vue can call it from mounted()
-    window.initWave = initWave;
-
-    // 11) Boot Vue and kick off animation if motion is allowed
-    new Vue({
-      el: '#app',
-      data: {
-        navLinks: [
-          { label: 'Art Commissions', href: 'https://www.google.com' },
-          { label: 'Ausherman Clothing', href: 'https://www.google.com' },
-          { label: 'About', href: 'https://www.google.com' },
-          { label: 'Cart', href: 'https://www.google.com' }
-        ],
-        social: [
-          { label: 'Our Company YouTube Channel', href: 'https://www.google.com' },
-          { label: 'Follow Us On X', href: 'https://www.google.com' },
-          { label: 'Jony Aush YouTube', href: 'https://www.google.com' },
-          { label: 'Dree Artmaker On YouTube', href: 'https://www.google.com' },
-          { label: 'JonyAush On Instagram', href: 'https://www.google.com' }
-        ]
-      },
-      mounted() {
-        // 12) Start the wave animation after the app mounts
-        const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (!reduce && typeof window.initWave === 'function') {
-          window.initWave();
-        }
-      }
+      // Optional controls
+      window.wave = {
+        pause: () => { clock.pause(); cancelAnimationFrame(rafId); },
+        play:  () => { clock.play(); cancelAnimationFrame(rafId); rafId = requestAnimationFrame(tick); },
+        rate:  (r=1) => clock.updatePlaybackRate(r) // e.g. window.wave.rate(1.5)
+      };
     });
-  </script>
+  }
+
+  window.initWave = initWave;
+
+  new Vue({
+    el: '#app',
+    data: {
+      navLinks: [
+        { label: 'Art Commissions', href: 'https://www.google.com' },
+        { label: 'Ausherman Clothing', href: 'https://www.google.com' },
+        { label: 'About', href: 'https://www.google.com' },
+        { label: 'Cart', href: 'https://www.google.com' }
+      ],
+      social: [
+        { label: 'Our Company YouTube Channel', href: 'https://www.google.com' },
+        { label: 'Follow Us On X', href: 'https://www.google.com' },
+        { label: 'Jony Aush YouTube', href: 'https://www.google.com' },
+        { label: 'Dree Artmaker On YouTube', href: 'https://www.google.com' },
+        { label: 'JonyAush On Instagram', href: 'https://www.google.com' }
+      ]
+    },
+    mounted() {
+      const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduce) initWave();
+    }
+  });
+</script>
 </body>
 </html>
