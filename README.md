@@ -1,20 +1,21 @@
-# Indescribable Industries — Static Rebuild
+# Indescribable Industries — WAAPI Path Marquee (Inline JS)
 
-Recreation using Vue 2.5, Bootstrap 5, Motion, and animate.css.
-
+Animate “WE TURN VISION INTO PRODUCT • …” along an SVG path using the Web Animations API.
+All project JavaScript lives in `index.html`.
 
 ## Run
-Open `index.html` in a browser. Done.
+1. Serve the folder with any static server.
+2. Open `index.html` in a modern browser.
+3. Watch the headline scroll left-to-right along the path.
 
 ## Customize
-Edit `assets/js/app.js`. Replace all `https://www.google.com` with your real links (comments show where).
+- **Speed**: Change `DURATION_MS` inside the inline `<script type="module">`.
+- **Message**: Edit the text content within both `<textPath>` elements.
+- **Path**: Replace the `d` attribute on `#sinePath` (keep `pathLength="100"`).
+- **Size**: Adjust responsive font sizes in `assets/css/styles.css`.
 
-## Animation
-- Morphing path + scrolling text via Motion in `assets/js/wave.js`.
-- Respects `prefers-reduced-motion`.
+## Accessibility
+- Honors `prefers-reduced-motion` automatically.
 
-## Styling
-Colors and sizes live in `assets/css/styles.css`.
-
-## Deploy
-Static hosting (GitHub Pages, Netlify, Cloudflare Pages, Nginx) works out of the box.
+## Tech
+- Vue 2.5, Bootstrap 5, WAAPI; no deprecated features; no external project JS files.

@@ -1,37 +1,51 @@
-:root{
-  --site-bg: #c9c0ea;
-  --primary: #3c12d6;
-  --primary-ink: #2b0b9b;
-  --link-hover: #4f25ff;
-  --black: #111;
-}
+/* Theme variables */
+:root { --site-bg:#0e0f14; --site-fg:#f5f6f7; --accent:#4aa1ff; }
+
 html, body { height: 100%; }
-body.bg-site { background: var(--site-bg); font-family: "Space Grotesk", system-ui, sans-serif; }
-.fw-700{ font-weight: 700; }
-.brand{ letter-spacing: .06em; font-size: clamp(18px, 2.2vw, 26px); }
-.nav-link-top{ color: var(--primary); font-weight: 600; text-decoration: none; font-size: clamp(14px, 1.5vw, 18px); }
-.nav-link-top:hover{ color: var(--link-hover); text-decoration: underline; }
-.wave-section{ margin-top: clamp(10px, 6vh, 80px); margin-bottom: clamp(12px, 6vh, 80px); }
-#waveText{ height: clamp(180px, 28vw, 320px); }
-#waveText #sinePath{ stroke: transparent; }
-.wave-text{ font-size: clamp(34px, 5vw, 78px); font-weight: 700; fill: var(--primary); letter-spacing: .03em; text-transform: uppercase; }
-.social-title{ color: var(--primary); text-transform: uppercase; font-size: clamp(32px, 6vw, 64px); }
+
+body{
+  background: var(--site-bg);
+  color: var(--site-fg);
+  font-family: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Branding & links */
+.brand{ letter-spacing:.06em; }
+.nav-link-top{ color:var(--site-fg); }
+.nav-link-top:hover{ color:var(--accent); }
+
+/* Wave section */
+.wave-section{ padding-block:1.25rem; overflow:hidden; }
+
+/* Text along path appearance */
+.wave-text{
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  fill:var(--site-fg);
+}
+
+/* Responsive text sizes */
+@media (min-width:320px){ .wave-text{ font-size:24px; } }
+@media (min-width:576px){ .wave-text{ font-size:28px; } }
+@media (min-width:768px){ .wave-text{ font-size:34px; } }
+@media (min-width:992px){ .wave-text{ font-size:40px; } }
+@media (min-width:1200px){ .wave-text{ font-size:46px; } }
+
+/* Social styles */
+.social-title{ letter-spacing:.04em; }
+.social-link{ color:var(--site-fg); opacity:.9; }
+.social-link:hover{ color:var(--accent); opacity:1; }
+
+/* Decorative accent */
 .squiggle{
-  height: 12px;
-  background:
-    radial-gradient(circle at 6px 6px, var(--primary) 6px, transparent 7px) 0 50%/24px 12px repeat-x,
-    radial-gradient(circle at 18px 6px, var(--primary) 6px, transparent 7px) 0 50%/24px 12px repeat-x;
-  filter: drop-shadow(0 1px 0 rgba(0,0,0,.08));
+  height:4px;
+  width:120px;
+  background:linear-gradient(90deg, var(--accent), transparent);
+  border-radius:999px;
 }
-.social-link{
-  display: inline-block;
-  margin: 18px 0;
-  color: var(--primary);
-  font-weight: 800;
-  font-size: clamp(16px, 2.6vw, 28px);
-  text-transform: uppercase;
-  border-bottom: 3px solid var(--primary);
-  padding-bottom: 4px;
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .wave-text{ letter-spacing:.08em; }
 }
-.social-link:hover{ color: var(--link-hover); border-bottom-color: var(--link-hover); }
-@media (prefers-reduced-motion: reduce){ .animate__animated{ animation: none !important; } }

@@ -1,17 +1,24 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <!-- Meta and document setup -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Indescribable Industries</title>
   <meta name="description" content="We turn vision into product." />
+
+  <!-- Fonts and frameworks -->
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+
+  <!-- Site styles -->
   <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body>
+  <!-- App shell -->
   <div id="app" class="bg-site min-vh-100 d-flex flex-column">
+    <!-- Header / Nav -->
     <header class="container-xxl py-4">
       <nav class="d-flex align-items-center justify-content-between">
         <a class="brand fw-700 text-uppercase text-primary text-decoration-none" href="#">Indescribable Industries</a>
@@ -23,14 +30,26 @@
       </nav>
     </header>
 
+    <!-- Wave marquee section -->
     <section class="wave-section flex-shrink-0">
       <svg id="waveText" class="w-100" viewBox="0 0 1600 320" preserveAspectRatio="none" role="img" aria-label="We turn vision into product">
         <defs>
-          <path id="sinePath" d="M0,200 C200,120 400,280 600,200 C800,120 1000,280 1200,200 C1400,120 1600,280 1800,200" fill="none" />
+          <!-- Normalize path to 100 units so percentage offsets are reliable -->
+          <path id="sinePath"
+                d="M0,200 C200,120 400,280 600,200 C800,120 1000,280 1200,200 C1400,120 1600,280 1800,200"
+                fill="none"
+                pathLength="100" />
         </defs>
+
+        <!-- Two staggered text copies ensure seamless continuous scrolling -->
         <g class="wave-group">
-          <text class="wave-text">
-            <textPath xlink:href="#sinePath" href="#sinePath" startOffset="0%">
+          <text class="wave-text wave-text--a">
+            <textPath href="#sinePath" startOffset="-100%">
+              WE TURN VISION INTO PRODUCT • WE TURN VISION INTO PRODUCT • WE TURN VISION INTO PRODUCT •
+            </textPath>
+          </text>
+          <text class="wave-text wave-text--b">
+            <textPath href="#sinePath" startOffset="-50%">
               WE TURN VISION INTO PRODUCT • WE TURN VISION INTO PRODUCT • WE TURN VISION INTO PRODUCT •
             </textPath>
           </text>
@@ -38,6 +57,7 @@
       </svg>
     </section>
 
+    <!-- Content -->
     <main class="container-xxl my-5 flex-grow-1">
       <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
@@ -53,72 +73,102 @@
         </div>
       </div>
     </main>
+
+    <!-- Footer -->
     <footer class="container-xxl py-4 small text-muted">
       <div class="d-flex justify-content-between">
         <span>© {{ new Date().getFullYear() }} Indescribable Industries</span>
-        <span>Built with Vue 2.5, Bootstrap, Motion</span>
+        <span>Built with Vue 2.5, Bootstrap, WAAPI</span>
       </div>
     </footer>
   </div>
 
+  <!-- Framework scripts -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Inline WAAPI logic: no external project JS files -->
   <script type="module">
-    import { animate, scroll } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm";
+    // 1) Define the initializer and attach it globally for Vue to call
     function initWave() {
+      // 2) Select required DOM nodes: the path and both textPath elements
       const pathEl = document.querySelector('#sinePath');
       const textPaths = document.querySelectorAll('#waveText textPath');
 
-      if (!pathEl || !textPaths.length) return;
+      // 3) Guard clause: exit if the path or two textPaths are missing
+      if (!pathEl || textPaths.length < 2) return;
 
-      const pathA = 'M0,200 C200,120 400,280 600,200 C800,120 1000,280 1200,200 C1400,120 1600,280 1800,200';
-      const pathB = 'M0,210 C200,150 400,260 600,210 C800,150 1000,260 1200,210 C1400,150 1600,260 1800,210';
-      const pathC = 'M0,190 C200,100 400,300 600,190 C800,100 1000,300 1200,190 C1400,100 1600,300 1800,190';
+      // 4) Respect user preferences: disable animations when reduced motion is requested
+      const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) return;
 
-      // Animate path morphing
-      animate(pathEl,
-        { d: [pathA, pathB, pathC, pathA] },
-        {
-          duration: 4,
-          easing: 'ease-in-out',
-          direction: 'alternate',
-          repeat: Infinity
-        }
-      );
+      // 5) Wait for fonts to be ready to avoid any initial layout jump
+      const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
 
-      // Animate text marquee
-      textPaths[1].setAttribute('startOffset', '-50%');
-      animate(0, 50, {
-        duration: 4,
-        repeat: Infinity,
-        ease: 'linear',
-        onUpdate: v => {
-          textPaths[0].setAttribute('startOffset', `${v}%`);
-          textPaths[1].setAttribute('startOffset', `${v - 50}%`);
-        }
+      fontsReady.then(() => {
+        // 6) Configure animation duration and easing for a smooth, constant speed
+        const DURATION_MS = 12000;
+
+        // 7) Animate first text: move startOffset from -100% to 0% continuously
+        textPaths[0].animate(
+          [
+            { startOffset: '-100%' },  // begin off the left side
+            { startOffset:   '0%'  }   // arrive aligned at the start
+          ],
+          {
+            duration: DURATION_MS,     // total time per cycle
+            iterations: Infinity,      // loop forever
+            easing: 'linear',          // constant velocity
+            fill: 'both'               // persist computed state
+          }
+        );
+
+        // 8) Animate second text: half-cycle offset to seamlessly fill the space
+        textPaths[1].animate(
+          [
+            { startOffset:  '-50%' },  // start midway behind
+            { startOffset:   '50%' }   // end midway ahead
+          ],
+          {
+            duration: DURATION_MS,     // same speed as the first
+            iterations: Infinity,      // loop forever
+            easing: 'linear',          // constant velocity
+            fill: 'both'               // persist computed state
+          }
+        );
+
+        // 9) Optionally expose references for runtime control (pause/resume) if desired later
+        window.waveAnimations = textPaths[0].getAnimations().concat(textPaths[1].getAnimations());
       });
-    };
+    }
 
+    // 10) Attach to window so Vue can call it from mounted()
+    window.initWave = initWave;
+
+    // 11) Boot Vue and kick off animation if motion is allowed
     new Vue({
       el: '#app',
       data: {
         navLinks: [
-          { label: 'Art Commissions', href: 'https://www.google.com' }, // <-- update
-          { label: 'Ausherman Clothing', href: 'https://www.google.com' }, // <-- update
-          { label: 'About', href: 'https://www.google.com' }, // <-- update
-          { label: 'Cart', href: 'https://www.google.com' }  // <-- update
+          { label: 'Art Commissions', href: 'https://www.google.com' },
+          { label: 'Ausherman Clothing', href: 'https://www.google.com' },
+          { label: 'About', href: 'https://www.google.com' },
+          { label: 'Cart', href: 'https://www.google.com' }
         ],
         social: [
-          { label: 'Our Company YouTube Channel', href: 'https://www.google.com' }, // <-- supply YouTube channel URL
-          { label: 'Follow Us On X', href: 'https://www.google.com' }, // <-- supply X/Twitter profile
-          { label: 'Jony Aush YouTube', href: 'https://www.google.com' }, // <-- supply Jony channel
-          { label: 'Dree Artmaker On YouTube', href: 'https://www.google.com' }, // <-- supply Dree channel
-          { label: 'JonyAush On Instagram', href: 'https://www.google.com' }  // <-- supply Instagram profile
+          { label: 'Our Company YouTube Channel', href: 'https://www.google.com' },
+          { label: 'Follow Us On X', href: 'https://www.google.com' },
+          { label: 'Jony Aush YouTube', href: 'https://www.google.com' },
+          { label: 'Dree Artmaker On YouTube', href: 'https://www.google.com' },
+          { label: 'JonyAush On Instagram', href: 'https://www.google.com' }
         ]
       },
       mounted() {
+        // 12) Start the wave animation after the app mounts
         const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (!reduce && typeof initWave === 'function') { initWave(); }
+        if (!reduce && typeof window.initWave === 'function') {
+          window.initWave();
+        }
       }
     });
   </script>
