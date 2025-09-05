@@ -30,6 +30,7 @@
       </nav>
     </header>
 
+    <MotionConfig reducedMotion="never">
     <!-- Wave marquee section -->
     <section class="wave-section flex-shrink-0">
       <svg id="waveText" class="w-100" viewBox="0 0 1600 320" preserveAspectRatio="none" role="img" aria-label="We turn vision into product">
@@ -51,7 +52,7 @@
         </g>
       </svg>
     </section>
-
+    </MotionConfig>
     <!-- Content -->
     <main class="container-xxl my-5 flex-grow-1">
       <div class="row justify-content-center">
@@ -85,7 +86,7 @@
   <!-- Inline WAAPI logic: no external project JS files -->
   <script type="module">
   import { animate, scroll } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm"
-  
+  import { MotionConfig } from "https://cdn.jsdelivr.net/npm/motion-v@latest/+esm"
   new Vue({
     el: '#app',
     data: {
