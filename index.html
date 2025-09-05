@@ -106,46 +106,41 @@
     },
     methods: {
       animateWaveText(){
-          // Call this from your Vue component (see example below)
-          window.startWaveMarquee = ({
-            selector = "#scrolling_text_g",
-            svgSelector = "#waveText",
-            textSelector = "#scrolling_text",
-            // pixels per second across the screen
-            speed = 120
-          } = {}) => {
-            const el  = document.querySelector(selector);
-            const svg = document.querySelector(svgSelector);
-            const txt = document.querySelector(textSelector);
-            if (!el || !svg || !txt) return null;
-        
-            // Measure current sizes in pixels
-            const svgWidth  = svg.getBoundingClientRect().width;
-            const textWidth = txt.getBBox().width || svgWidth;
-        
-            // Move fully from off-left to off-right
-            const from = -textWidth;
-            const to   = svgWidth;
-            const distance = (textWidth + svgWidth);
-            const duration = Math.max(0.001, distance / speed); // seconds
-        
-            el.style.willChange = "transform";
-        
-            // Linear, seamless loop (will jump back off-left at loop start)
-            const controls = animate(
-              el,
-              { transform: [`translateX(${from}px)`, `translateX(${to}px)`] },
-              { duration, easing: "linear", repeat: Infinity }
-            );
-        
-            // Handy API for your component
-            return {
-              pause:  () => controls.pause?.(),
-              play:   () => controls.play?.(),
-              stop:   () => controls.stop?.(),   // leaves element where it is
-              cancel: () => controls.cancel?.()  // resets as if never played
-            };
-          };
+        const el  = document.querySelector("#scrolling_text_g");
+        const svg = document.querySelector("#waveText");
+        const txt = document.querySelector("#scrolling_text");
+        if (!el || !svg || !txt) return;
+
+        // make SVG transforms predictable
+        el.style.transformBox = "fill-box";
+        el.style.transformOrigin = "0 50%";
+        el.style.willChange = "transform";
+
+        const speed = 120; // px/sec
+
+        const start = () => {
+          const svgWidth  = svg.getBoundingClientRect().width;
+          const textWidth = txt.getBBox().width || svgWidth;
+
+          const from = -textWidth;
+          const to   = svgWidth;
+          const duration = Math.max(0.001, (textWidth + svgWidth) / speed); // s
+
+          // start/replace the loop
+          this.marquee?.cancel?.();
+          this.marquee = animate(
+            el,
+            { transform: [`translateX(${from}px)`, `translateX(${to}px)`] },
+            { duration, easing: "linear", repeat: Infinity }
+          );
+        };
+
+        // ensure font metrics are ready before getBBox (prevents 0-widths)
+        if (document.fonts?.ready) {
+          document.fonts.ready.then(start);  // CSS Font Loading API
+        } else {
+          start();
+        }
       },
     },
     mounted() {
